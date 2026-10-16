@@ -1,7 +1,6 @@
 // Canvas and context
 let c = document.querySelector(`#pong`)
 let ctx = c.getContext(`2d`)
-let gameWindowWidth = document.getElementById("pong").width
 
 // Timer to make the game run at 60fps
 let timer = setInterval(main, 1000/60)
@@ -19,7 +18,8 @@ p1.x = 0 + p1.w/2
 let p2 = new Box();
 p2.w = 20
 p2.h = 150
-p2.x = gameWindowWidth - p2.w/2
+p2.x = c.width - p2.w/2
+p2.color = `orange`
 
 // Ball setup
 let ball = new Box();
@@ -86,15 +86,10 @@ function main()
     }
 
     // Ball collision 
-    if (ball.x < 0)
+    if ((ball.x < 0) || (ball.x > c.width))
     {
         ball.x = c.width/2
         ball.y = c.height/2
-    }
-    if (ball.x > c.width)
-    {
-        ball.x = c.width
-        ball.vx = -ball.vx
     }
     if (ball.y < 0)
     {
@@ -117,7 +112,7 @@ function main()
     // p2 with ball collision
     if (ball.collide(p2))
     {
-        ball.x = p2.x + p2.w/2 + ball.w/2
+        ball.x = p2.x - p2.w/2 - ball.w/2
         ball.vx = -ball.vx;
     }
 
